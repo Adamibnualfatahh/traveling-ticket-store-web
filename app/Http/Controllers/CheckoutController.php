@@ -21,7 +21,7 @@ class CheckoutController extends Controller
         return view('pages.checkout',[
             'item' => $item
         ]);
-        
+
     }
 
     public function process(Request $request, $id)
@@ -30,12 +30,12 @@ class CheckoutController extends Controller
 
         $transaction = Transaction::create([
             'travel_packages_id' => $id,
-            'users_id' => Auth::user()->$id,
-            'additional_visa' => 0,
-            'transaction_total' => $travel_package->price, 
+            'user_id' => Auth::user()->id,
+            'additional_visa' => 190,
+            'transaction_total' => $travel_package->price,
             'transaction_status' => 'IN_CART'
         ]);
-        
+
         TransactionDetail::create([
             'transactions_id' => $transaction->id,
             'username' => Auth::user()->username,
@@ -54,17 +54,17 @@ class CheckoutController extends Controller
         $transaction = Transaction::with(['details', 'travel_package'])
             ->findOrFail($item->transactions_id);
 
-        if ($item->is_visa) 
+        if ($item->is_visa)
         {
             $transaction->transaction_total -= 190;
             $transaction->additional_visa -= 190;
         }
-    
+
         $transaction->transaction_total -= $transaction->travel_package->price;
-    
-        $transaction->save(); 
-        $item->delete();   
-        
+
+        $transaction->save();
+        $item->delete();
+
         return redirect()->route('checkout', $item->transactions_id);
     }
 
@@ -83,7 +83,7 @@ class CheckoutController extends Controller
 
         $transaction = Transaction::with(['travel_package'])->find($id);
 
-        if ($request->is_visa) 
+        if ($request->is_visa)
         {
             $transaction->transaction_total += 190;
             $transaction->additional_visa += 190;

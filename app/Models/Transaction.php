@@ -13,7 +13,7 @@ class Transaction extends Model
 
 
     protected $fillable =[
-        'travel_packages_id','user_id','addtional_visa',
+        'travel_packages_id','user_id','additional_visa',
         'transaction_total','transaction_status'
     ];
 
@@ -22,10 +22,10 @@ class Transaction extends Model
     ];
 
     public function details(){
-        return $this->hasMany(TransactionDetail::class, 'transaction_id','id');
+        return $this->hasMany(TransactionDetail::class, 'transactions_id','id');
     }
     public function detail(){
-        return $this->hasMany(TransactionDetail::class, 'transaction_id','id');
+        return $this->hasMany(TransactionDetail::class, 'transactions_id','id');
     }
     public function travel_package(){
         return $this->belongsTo(TravelPackage::class, 'travel_packages_id','id');

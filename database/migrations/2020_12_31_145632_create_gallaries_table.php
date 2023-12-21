@@ -15,10 +15,12 @@ class CreateGallariesTable extends Migration
     {
         Schema::create('galleries', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('travel_pakages-id');
+            $table->integer('travel_packages_id');
             $table->text('image');
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('travel_pakages_id')->references('id')->on('travel_packages')->onDelete('cascade');
         });
     }
 

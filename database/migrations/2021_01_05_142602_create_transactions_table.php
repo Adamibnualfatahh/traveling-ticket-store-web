@@ -17,7 +17,7 @@ class CreateTransactionsTable extends Migration
             $table->id();
             $table->integer('travel_packages_id');
             $table->integer('user_id');
-            $table->integer('additional_visa');
+            $table->integer('additional_visa')->default(0);
             $table->integer('transaction_total');
             $table->string('transaction_status');
             $table->softDeletes ();
